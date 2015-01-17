@@ -1,0 +1,49 @@
+body {
+	width: 800px;
+}
+
+.quote{
+	border: 1px solid black;
+}
+
+.title{
+	border: 1px solid black;
+}
+
+.up{
+	display: inline-block;
+}
+
+.rating{
+	display: inline-block;
+}
+
+.down{
+	display: inline-block;
+}
+
+.share{
+	display: inline-block;
+}
+
+.date{
+	display: inline-block;
+}
+
+.id{
+	display: inline-block;
+}
+
+.text{
+	border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+<title>JSF Tutorial!</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+
+<h:body>
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{frontendService.page}" />
+	</f:metadata>
+
+	<f:view>
+
+		<h:form>
+
+			<h:commandButton value="Sort by rating"
+				action="#{frontendService.sortByRating()}">
+				<f:ajax execute="@form" render="@all" />
+			</h:commandButton>
+
+			<h:commandButton value="Sort by date"
+				action="#{frontendService.sortByDate()}">
+				<f:ajax execute="@form" render="@all" />
+			</h:commandButton>
+
+		</h:form>
+		
+		<c:forEach var="quote" items="#{frontendService.getQuotes()}">
+
+			<div class="quote">
+				<div class="title">
+
+					<div class="up">
+						<h:form>
+							<h:commandLink action="#{frontendService.voteUp(quote.itemId)}"
+								value="+">
+							</h:commandLink>
+						</h:form>
+					</div>
+
+					<div class="rating">#{quote.rating}</div>
+
+					<div class="down">
+						<h:form>
+							<h:commandLink action="#{frontendService.voteDown(quote.itemId)}"
+								value="-">
+							</h:commandLink>
+						</h:form>
+					</div>
+
+					<div class="share">share</div>
+
+					<div class="date">
+
+						<h:outputText value="#{quote.addedDate}">
+							<f:convertDateTime pattern="yyyy.MM.dd HH:mm" />
+						</h:outputText>
+
+					</div>
+
+					<div class="id">#{quote.itemId}</div>
+
+				</div>
+
+				<div class="text">${quote.text}</div>
+
+			</div>
+		</c:forEach>
+
+		<c:forEach var="i" begin="0" end="#{frontendService.totalPage}">
+
+			<a href="?page=#{i}">#{i}</a>
+
+		</c:forEach>
+
+	</f:view>
+</h:body>
+
+</html>
