@@ -51,6 +51,7 @@ public class MappingService {
 	}
 
 	public void voteUp(Long id) {
+		System.err.println("voteUp " + id);
 		Quote quote = em.find(Quote.class, id);
 		quote.setRating(quote.getRating() + 1);
 		em.merge(quote);
@@ -73,6 +74,7 @@ public class MappingService {
 		CriteriaQuery<Quote> cq = cb.createQuery(Quote.class);
 		Root<Quote> rootEntry = cq.from(Quote.class);
 		cq.where(cb.equal(rootEntry.get("status"), Status.APPROVED));
+		cq.orderBy(cb.desc(rootEntry.get("itemId")));
 		TypedQuery<Quote> allQuery = em.createQuery(cq).setFirstResult(start)
 				.setMaxResults(limit);
 		return allQuery.getResultList();

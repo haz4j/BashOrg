@@ -6,82 +6,112 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<head>
-<title>JSF Tutorial!</title>
-<link rel="stylesheet" href="css/style.css" />
-</head>
+<h:head>
+	<title>Цитатник Рунета</title>
+	<link rel="stylesheet" href="css/style.css" />
+</h:head>
 
 <h:body>
 
-	<f:metadata>
-		<f:viewParam name="page" value="#{frontendService.page}" />
-	</f:metadata>
+	<div id="xsite-nav">
+		<a href="/" class="current"><img
+			src="http://s.bash.im/img/icon-bor.gif" width="16" height="16" />bash.im</a>
+		<a href="http://ithappens.me/"><img
+			src="http://s.bash.im/img/icon-ith.gif" width="16" height="16" />ithappens.me</a>
+		<a href="http://zadolba.li/"><img
+			src="http://s.bash.im/img/icon-zdb.gif" width="16" height="16" />zadolba.li</a>
+	</div>
+	<img src="http://o.hai.lolwut.it/" width="0" height="0"
+		style="visibility: hidden; position: absolute; top: 0; left: 0;" />
 
-	<f:view>
+	<div id="body">
 
-		<h:form>
+		<div id="header">
+			<img src="http://s.bash.im/logo.gif"
+				data-src2x="http://s.bash.im/logo@2x.gif" width="300" height="40"
+				alt="bash.im" />
+			<h1>bash.im&nbsp;— Цитатник&nbsp;Рунета</h1>
+		</div>
 
-			<h:commandButton value="Sort by rating"
-				action="#{frontendService.sortByRating()}">
-				<f:ajax execute="@form" render="@all" />
-			</h:commandButton>
+		<div id="menubar">
+			<div class="submenu">
+				<span class="title">Цитаты:</span>
+				<div class="options">
+					<span class="nowrap"> <h:commandButton
+							value="Sort by rating" action="#{frontendService.sortByRating()}">
+							<f:ajax execute="@form" render="@all" />
+						</h:commandButton> <h:commandButton value="Sort by date"
+							action="#{frontendService.sortByDate()}">
+							<f:ajax execute="@form" render="@all" />
+						</h:commandButton>
 
-			<h:commandButton value="Sort by date"
-				action="#{frontendService.sortByDate()}">
-				<f:ajax execute="@form" render="@all" />
-			</h:commandButton>
+					</span>
+				</div>
+			</div>
+		</div>
 
-		</h:form>
-		
-		<c:forEach var="quote" items="#{frontendService.getQuotes()}">
+		<div class="pager">
 
-			<div class="quote">
-				<div class="title">
+			<c:forEach var="i" begin="0" end="#{frontendService.totalPage - 1}">
 
-					<div class="up">
-						<h:form>
-							<h:commandLink action="#{frontendService.voteUp(quote.itemId)}"
-								value="+">
-							</h:commandLink>
-						</h:form>
+				<span> <a href="?page=#{i}">#{i}</a>
+				</span>
+
+			</c:forEach>
+
+		</div>
+
+		<f:metadata>
+			<f:viewParam name="page" value="#{frontendService.page}" />
+		</f:metadata>
+
+		<f:view>
+
+			<c:forEach var="quote" items="#{frontendService.getQuotes()}">
+
+				<div class="quote">
+					<div class="actions">
+
+						<div class="up">
+							<h:form>
+								<h:commandLink action="#{frontendService.voteUp(quote.itemId)}"
+									value="+">
+								</h:commandLink>
+							</h:form>
+						</div>
+
+						<div class="rating-o">#{quote.rating}</div>
+
+						<div class="down">
+							<h:form>
+								<h:commandLink
+									action="#{frontendService.voteDown(quote.itemId)}" value="-">
+								</h:commandLink>
+							</h:form>
+						</div>
+
+						<div class="share">share</div>
+
+						<div class="date">
+
+							<h:outputText value="#{quote.addedDate}">
+								<f:convertDateTime pattern="yyyy.MM.dd HH:mm" />
+							</h:outputText>
+
+						</div>
+
+						<div class="id">#{quote.itemId}</div>
+
 					</div>
 
-					<div class="rating">#{quote.rating}</div>
-
-					<div class="down">
-						<h:form>
-							<h:commandLink action="#{frontendService.voteDown(quote.itemId)}"
-								value="-">
-							</h:commandLink>
-						</h:form>
-					</div>
-
-					<div class="share">share</div>
-
-					<div class="date">
-
-						<h:outputText value="#{quote.addedDate}">
-							<f:convertDateTime pattern="yyyy.MM.dd HH:mm" />
-						</h:outputText>
-
-					</div>
-
-					<div class="id">#{quote.itemId}</div>
+					<div class="text">${quote.text}</div>
 
 				</div>
+			</c:forEach>
 
-				<div class="text">${quote.text}</div>
+		</f:view>
 
-			</div>
-		</c:forEach>
-
-		<c:forEach var="i" begin="0" end="#{frontendService.totalPage}">
-
-			<a href="?page=#{i}">#{i}</a>
-
-		</c:forEach>
-
-	</f:view>
+	</div>
 </h:body>
 
 </html>

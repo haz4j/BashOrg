@@ -6,9 +6,9 @@
 		<jta-data-source>dbCon</jta-data-source>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-			<!-- <property name="javax.persistence.schema-generation.database.action"
+		<!--	<property name="javax.persistence.schema-generation.database.action"
 				value="drop-and-create" />
-			 <property name="javax.persistence.sql-load-script-source" value="/META-INF/insert.sql"/> -->
+			  <property name="javax.persistence.sql-load-script-source" value="/META-INF/insert.sql"/> -->
 		</properties>
 	</persistence-unit>
 </persistence>

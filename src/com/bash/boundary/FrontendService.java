@@ -1,10 +1,13 @@
 package com.bash.boundary;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,8 +16,8 @@ import com.bash.entity.Quote;
 import com.bash.entity.Status;
 
 @Named
-@RequestScoped
-public class FrontendService {
+@SessionScoped
+public class FrontendService implements Serializable {
 
 	private static final int QUOTES_BY_PAGE = 10;
 
@@ -29,12 +32,12 @@ public class FrontendService {
 
 	private SortType sortBy = SortType.DATE;
 
-	// @Inject
-	// private Initial initial;
+	@Inject
+	private Initial initial;
 
 	@PostConstruct
 	public void updateTotalPages() {
-
+		// initial.init();
 		totalPage = mappingService.getTotalPages() / QUOTES_BY_PAGE;
 	}
 
@@ -44,14 +47,11 @@ public class FrontendService {
 	}
 
 	public List<Quote> getQuotes(int pageId) {
-
 		return getQuotes(pageId * QUOTES_BY_PAGE, QUOTES_BY_PAGE);
 	}
 
 	public List<Quote> getQuotes(int from, int limit) {
-
 		return mappingService.getQuotes(from, limit, sortBy);
-
 	}
 
 	public List<Quote> getQuotesOnApprove() {
@@ -80,12 +80,12 @@ public class FrontendService {
 		quote.setStatus(Status.UNEXAMINED);
 		mappingService.addQuote(quote);
 	}
-	
-	public void sortByRating(){
+
+	public void sortByRating() {
 		sortBy = SortType.RATING;
 	}
-	
-	public void sortByDate(){
+
+	public void sortByDate() {
 		sortBy = SortType.DATE;
 	}
 
@@ -112,5 +112,4 @@ public class FrontendService {
 	public void setTotalPage(Long totalPage) {
 		this.totalPage = totalPage;
 	}
-
 }

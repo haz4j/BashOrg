@@ -22,16 +22,19 @@ public class Initial {
 		
 		Quote quote;
 		Approver approver;
-		Random random = new Random();
+		Random r = new Random();
 		
-
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 30; i++) {
 			quote = new Quote();
 			approver = new Approver();
 			approver.getItems().add(quote);
 			quote.setApprover(approver);
 			quote.setAddedDate(new Date());
-			quote.setRating(random.nextLong());
+			
+			long range = 100L;
+			long number = (long)(r.nextDouble()*range);
+			
+			quote.setRating(number);
 			quote.setText("text #" + i);
 			
 			int status = i % 3;
